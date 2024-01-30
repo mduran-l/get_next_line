@@ -6,8 +6,21 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:41:56 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/01/23 09:42:14 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:28:18 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+size_t	linelen(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (i);
+		i ++;
+	}
+	return (0);
+}
