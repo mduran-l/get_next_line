@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:41:56 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/01 14:55:45 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:55:50 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -26,13 +26,10 @@ size_t	ft_linelen(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n' || s[i] < 0)
+	i = -1;
+	while (s[++ i])
+		if (s[i] == '\n')
 			return (i);
-		i ++;
-	}
 	return (0);
 }
 
