@@ -6,29 +6,34 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:41:56 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/06 12:24:22 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/06 13:19:16 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	i;
+	void	*out;
+
+	if (!count || !size)
+		return (NULL);
+	out = (void *)malloc(count * size);
+	if (!out)
+		return (NULL);
+	i = 0;
+	while (i < count * size)
+		((char *)out)[i ++] = 0;
+	return (out);
+}
+
+size_t	ft_linelen(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < n)
-	{
-		((char *)s)[i ++] = 0;
-	}
-}
-
-int	ft_linelen(const char *s)
-{
-	int	i;
-
-	i = 0;
 	if (!s)
 		return (0);
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '\n')
@@ -42,15 +47,15 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
-	i = 0;
 	if (!s)
-		return (i);
+		return (0);
+	i = 0;
 	while (s[i])
 		i ++;
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, size_t start, size_t len)
 {
 	size_t	i;
 	size_t	l;
@@ -62,12 +67,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		start = l;
 		len = 0;
 	}
-	if (len > l - (size_t)start)
-		len = l - (size_t)start;
-	subs = malloc((len + 1) * sizeof(char));
+	if (len > l - start)
+		len = l - start;
+	subs = ft_calloc(len + 1, sizeof(char));
 	if (!subs)
 		return (NULL);
-	ft_bzero(subs, len + 1);
 	i = 0;
 	while (len --)
 		subs[i ++] = s[start ++];
@@ -86,17 +90,15 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = malloc(sizeof(char));
+		s1 = ft_calloc(1, sizeof(char));
 		if (!s1)
 			return (NULL);
-		ft_bzero(s1, 1);
 	}
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
-	joint = malloc((l1 + l2 + 1) * sizeof(char));
+	joint = ft_calloc(l1 + l2 + 1, sizeof(char));
 	if (!joint)
-		return (NULL);
-	ft_bzero(joint, l1 + l2 + 1);
+		return (free(s1), NULL);
 	i = -1;
 	while (s1[++ i])
 		joint[i] = s1[i];
