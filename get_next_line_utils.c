@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:41:56 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/05 11:55:50 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:24:22 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -22,14 +22,19 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-size_t	ft_linelen(const char *s)
+int	ft_linelen(const char *s)
 {
-	size_t	i;
+	int	i;
 
-	i = -1;
-	while (s[++ i])
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+	{
 		if (s[i] == '\n')
 			return (i);
+		i ++;
+	}
 	return (0);
 }
 
@@ -38,6 +43,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (i);
 	while (s[i])
 		i ++;
 	return (i);
@@ -57,7 +64,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > l - (size_t)start)
 		len = l - (size_t)start;
-	subs = (char *)malloc((len + 1) * sizeof(char));
+	subs = malloc((len + 1) * sizeof(char));
 	if (!subs)
 		return (NULL);
 	ft_bzero(subs, len + 1);
@@ -79,14 +86,14 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = malloc(sizeof(char) * 2);
+		s1 = malloc(sizeof(char));
 		if (!s1)
 			return (NULL);
-		ft_bzero(s1, 2);
+		ft_bzero(s1, 1);
 	}
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
-	joint = (char *)malloc((l1 + l2 + 1) * sizeof(char));
+	joint = malloc((l1 + l2 + 1) * sizeof(char));
 	if (!joint)
 		return (NULL);
 	ft_bzero(joint, l1 + l2 + 1);

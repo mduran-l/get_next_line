@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/05 11:57:19 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:26:07 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -17,20 +17,21 @@ char	*read_file(int fd, char *data)
 	char	*buff;
 
 	reader = 1;
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (free(data), NULL);
+	ft_bzero(buff, BUFFER_SIZE + 1);
 	while (reader && !ft_linelen(buff))
 	{
 		ft_bzero(buff, BUFFER_SIZE + 1);
 		reader = read(fd, buff, BUFFER_SIZE);
-		if (reader > 0)
-			data = ft_strjoin(data, buff);
+		if (reader < 0)
+			break ;
+		data = ft_strjoin(data, buff);
+		if (!data)
+			return (free(buff), NULL);
 	}
-	free(buff);
-	if (reader < 0)
-		return (free(data), NULL);
-	return (data);
+	return (free(buff), data);
 }
 
 char	*get_next_line(int fd)
@@ -41,7 +42,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (NULL);
-	if (!buff || (buff && !ft_linelen(buff)))
+	if (!buff || (buff && ft_linelen(buff)))
 		buff = read_file(fd, buff);
 	if (!buff)
 		return (NULL);
@@ -51,6 +52,6 @@ char	*get_next_line(int fd)
 		return (free(buff), NULL);
 	buff = ft_substr(buff, len, ft_strlen(buff) - len);
 	if (!buff)
-		return (free(buff), NULL);
+		return (free(line), NULL);
 	return (line);
 }
