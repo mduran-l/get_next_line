@@ -6,32 +6,40 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/06 13:35:07 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:41:18 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char	*read_file(int fd, char *data)
+void	ft_bzero(void *s, size_t n)
 {
-	int		reader;
-	char	*buff;
+	size_t	i;
 
-	reader = 1;
-	buff = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buff)
-		return (NULL);
-	while (reader)
+	i = 0;
+	while (i < n)
+		((char *)s)[i ++] = 0;
+}
+
+char	*read_file(int fd, char *buff)
+{
+	int		rfd;
+	char	*temp;
+
+	rfd = 1;
+	temp = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!temp)
+		return (free(buff), NULL);
+	while (rfd && !ft_linelen(buff))
 	{
-		reader = read(fd, buff, BUFFER_SIZE);
-		if (reader < 0)
-			break ;
-		data = ft_strjoin(data, buff);
-		if (!data)
-			return (NULL);
-		if (ft_linelen(buff))
-			break ;
+		ft_bzero(temp, BUFFER_SIZE + 1);
+		rfd = read(fd, temp, BUFFER_SIZE);
+		if (rfd < 0)
+			return (free(temp), NULL);
+		buff = ft_strjoin(buff, temp);
+		if (!buff)
+			return (free(temp), NULL);
 	}
-	return (free(buff), data);
+	return (free(temp), buff);
 }
 
 char	*get_next_line(int fd)
@@ -40,16 +48,18 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		len;
 
-	if (fd < 0)
+	if (fd < 0 || !BUFFER_SIZE)
 		return (NULL);
-	if (!buff || (buff && ft_linelen(buff)))
+	if (!buff || (buff && !ft_linelen(buff)))
+	{
 		buff = read_file(fd, buff);
-	if (!buff)
-		return (NULL);
+		if (!buff)
+			return (NULL);
+	}
 	len = ft_linelen(buff) + 1;
 	line = ft_substr(buff, 0, len);
 	if (!line)
-		return (NULL);
+		return (free(buff), NULL);
 	buff = ft_substr(buff, len, ft_strlen(buff) - len);
 	if (!buff)
 		return (free(line), NULL);

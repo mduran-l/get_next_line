@@ -6,14 +6,13 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:41:56 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/06 13:19:16 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:05:50 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	size_t	i;
 	void	*out;
 
 	if (!count || !size)
@@ -21,13 +20,11 @@ void	*ft_calloc(size_t count, size_t size)
 	out = (void *)malloc(count * size);
 	if (!out)
 		return (NULL);
-	i = 0;
-	while (i < count * size)
-		((char *)out)[i ++] = 0;
+	ft_bzero(out, count * size);
 	return (out);
 }
 
-size_t	ft_linelen(const char *s)
+size_t	ft_linelen(char *s)
 {
 	size_t	i;
 
@@ -43,7 +40,7 @@ size_t	ft_linelen(const char *s)
 	return (0);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
@@ -55,18 +52,15 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_substr(char const *s, size_t start, size_t len)
+char	*ft_substr(char *s, size_t start, size_t len)
 {
 	size_t	i;
 	size_t	l;
 	char	*subs;
 
 	l = ft_strlen(s);
-	if (start >= l)
-	{
-		start = l;
-		len = 0;
-	}
+	if (!s)
+		return (NULL);
 	if (len > l - start)
 		len = l - start;
 	subs = ft_calloc(len + 1, sizeof(char));
@@ -105,5 +99,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = -1;
 	while (s2[++ i])
 		joint[l1 + i] = s2[i];
-	return (joint);
+	return (free(s1), joint);
 }
