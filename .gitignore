@@ -3,6 +3,7 @@
 *.out
 *.swp
 main.c
+*.out*
 *.o
 *.a
 *.
