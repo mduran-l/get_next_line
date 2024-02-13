@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 13:06:18 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:31:30 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -27,12 +27,12 @@ static char	*extract_line(char *buff)
 
 	if (!ft_strlen(buff))
 		return (NULL);
-	i = ft_linelen(buff);
-	if (!i)
+	i = ft_linelen(buff) + 1;
+	if (i < 1)
 		i = ft_strlen(buff);
 	if (!i)
 		return (NULL);
-	line = ft_calloc(i + 2, sizeof(char));
+	line = ft_calloc(i + 1, sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
