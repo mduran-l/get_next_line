@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 11:35:36 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:12:17 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -21,6 +21,8 @@ static char	*extract_line(char *buff)
 	i = ft_linelen(buff);
 	if (!i)
 		i = ft_strlen(buff);
+	if (!i)
+		return (NULL);
 	line = ft_calloc(i + 2, sizeof(char));
 	if (!line)
 		return (NULL);
@@ -30,22 +32,26 @@ static char	*extract_line(char *buff)
 		line[i] = buff[i];
 		i ++;
 	}
-	line[i] = buff[i];
+	if (buff[i])
+		line[i] = buff[i];
 	return (line);
 }
 
-static char	*clear_buffer(char *buff)
+static char	*clear_buffer(char *line, char *buff)
 {
 	size_t	i;
 	size_t	j;
 	size_t	s;
 	char	*cleared;
 
-	if (!buff)
-		return (NULL);
-	i = ft_linelen(buff) + 1;
 	s = ft_strlen(buff);
-	cleared = ft_calloc(s - i + 1, sizeof(char));
+	i = ft_strlen(line);
+	if (!(s - i))
+	{
+		free(buff);
+		return (NULL);
+	}
+	cleared = ft_calloc(s - i, sizeof(char));
 	if (!cleared)
 		return (NULL);
 	j = 0;
@@ -81,6 +87,6 @@ char	*get_next_line(int fd)
 	}
 	free(line);
 	line = extract_line(buff);
-	buff = clear_buffer(buff);
+	buff = clear_buffer(line, buff);
 	return (line);
 }
