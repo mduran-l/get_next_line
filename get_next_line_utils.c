@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 12:38:04 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:54:30 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -46,7 +46,7 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s)
+	if (!s || !s[0])
 		return (i);
 	while (s[i])
 		i ++;
