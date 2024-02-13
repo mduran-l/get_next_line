@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/12 14:48:46 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:48:41 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -51,26 +51,6 @@ size_t	ft_strlen(char *s)
 	while (s[i])
 		i ++;
 	return (i);
-}
-
-char	*ft_substr(char *s, size_t start, size_t len)
-{
-	size_t	i;
-	size_t	l;
-	char	*subs;
-
-	if (!s)
-		return (NULL);
-	l = ft_strlen(s);
-	if (len > l - start)
-		len = l - start;
-	subs = ft_calloc(1 + len, sizeof(char));
-	if (!subs)
-		return (NULL);
-	i = 0;
-	while (len --)
-		subs[i ++] = s[start ++];
-	return (subs);
 }
 
 /*

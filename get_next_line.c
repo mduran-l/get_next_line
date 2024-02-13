@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/12 14:50:50 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:35:36 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -14,38 +14,44 @@
 static char	*extract_line(char *buff)
 {
 	char	*line;
-	char	l;
+	size_t	i;
 
-	if (!buff)
+	if (!ft_strlen(buff))
 		return (NULL);
-	l = ft_linelen(buff) + 1;
-	line = ft_substr(buff, 0, l);
+	i = ft_linelen(buff);
+	if (!i)
+		i = ft_strlen(buff);
+	line = ft_calloc(i + 2, sizeof(char));
 	if (!line)
-	{
-		free(buff);
 		return (NULL);
+	i = 0;
+	while (buff[i] && buff[i] != '\n')
+	{
+		line[i] = buff[i];
+		i ++;
 	}
+	line[i] = buff[i];
 	return (line);
 }
 
 static char	*clear_buffer(char *buff)
 {
-	size_t	l;
+	size_t	i;
+	size_t	j;
 	size_t	s;
 	char	*cleared;
 
 	if (!buff)
 		return (NULL);
-	l = ft_linelen(buff) + 1;
+	i = ft_linelen(buff) + 1;
 	s = ft_strlen(buff);
-	if (!s)
-	{
-		free(buff);
-		return (NULL);
-	}
-	cleared = ft_substr(buff, l, s);
+	cleared = ft_calloc(s - i + 1, sizeof(char));
 	if (!cleared)
 		return (NULL);
+	j = 0;
+	while (buff[i])
+		cleared[j++] = buff[i++];
+	cleared[j] = 0;
 	free(buff);
 	return (cleared);
 }
@@ -54,23 +60,23 @@ char	*get_next_line(int fd)
 {
 	static char	*buff = {0};
 	char		*line;
-	int			rfd;
+	int			fd_read;
 
-	rfd = 1;
-	if (!fd || !BUFFER_SIZE)
+	fd_read = 1;
+	if (fd < 0 || !BUFFER_SIZE)
 		return (NULL);
 	line = (char *)ft_calloc(1 + BUFFER_SIZE, sizeof(char));
 	if (!line)
 		return (NULL);
-	while (rfd && !ft_linelen(line))
+	while (fd_read && !ft_linelen(line))
 	{
-		rfd = read(fd, line, BUFFER_SIZE);
-		if (rfd < 0)
+		fd_read = read(fd, line, BUFFER_SIZE);
+		if (fd_read < 0)
 		{
 			free(line);
 			return (NULL);
 		}
-		if (rfd)
+		if (fd_read)
 			buff = ft_strjoin(buff, line);
 	}
 	free(line);
