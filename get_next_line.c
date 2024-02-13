@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 12:12:17 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:21:03 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -46,7 +46,7 @@ static char	*clear_buffer(char *line, char *buff)
 
 	s = ft_strlen(buff);
 	i = ft_strlen(line);
-	if (!(s - i))
+	if (s - i < 1)
 	{
 		free(buff);
 		return (NULL);
