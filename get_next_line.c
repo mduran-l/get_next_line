@@ -6,12 +6,12 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 13:49:00 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:17:56 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-static char	*freeall(char **s1, char **s2)
+char	*freeall(char **s1, char **s2)
 {
 	if (!(s1 == NULL))
 		free(*s1);
@@ -27,12 +27,12 @@ static char	*extract_line(char *buff)
 
 	if (!buff)
 		return (NULL);
-	i = ft_linelen(buff) + 1;
-	if (i < 2)
+	i = ft_linelen(buff);
+	if (!i)
 		i = ft_strlen(buff);
 	if (!i)
 		return (NULL);
-	line = ft_calloc(i + 1, sizeof(char));
+	line = ft_calloc(i + 2, sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -71,20 +71,19 @@ char	*get_next_line(int fd)
 {
 	static char	*buff = {0};
 	char		*line;
-	int			fd_read;
+	size_t		fd_read;
 
-	if (fd < 0 || !BUFFER_SIZE)
+	if (!fd || !BUFFER_SIZE)
 		return (NULL);
 	line = (char *)ft_calloc(1 + BUFFER_SIZE, sizeof(char));
 	if (!line)
 		return (NULL);
-	while (1)
+	fd_read = 1;
+	while (fd_read && !ft_strchr(line, '\n'))
 	{
 		fd_read = read(fd, line, BUFFER_SIZE);
 		if (fd_read < 0)
 			return (freeall(&line, &buff));
-		if (!fd_read)
-			break ;
 		buff = ft_strjoin(buff, line);
 		if (!buff)
 			return (freeall(&buff, &line));
