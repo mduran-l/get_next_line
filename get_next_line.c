@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 12:21:03 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:34:58 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -51,7 +51,7 @@ static char	*clear_buffer(char *line, char *buff)
 		free(buff);
 		return (NULL);
 	}
-	cleared = ft_calloc(s - i, sizeof(char));
+	cleared = ft_calloc(s - i + 1, sizeof(char));
 	if (!cleared)
 		return (NULL);
 	j = 0;
@@ -60,6 +60,13 @@ static char	*clear_buffer(char *line, char *buff)
 	cleared[j] = 0;
 	free(buff);
 	return (cleared);
+}
+
+static char	*freeall(char **s1, char **s2)
+{
+	free(*s1);
+	free(*s2);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -78,10 +85,7 @@ char	*get_next_line(int fd)
 	{
 		fd_read = read(fd, line, BUFFER_SIZE);
 		if (fd_read < 0)
-		{
-			free(line);
-			return (NULL);
-		}
+			return (freeall(&line, &buff));
 		if (fd_read)
 			buff = ft_strjoin(buff, line);
 	}
