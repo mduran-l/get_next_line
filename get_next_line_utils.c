@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 15:14:42 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:47:54 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -25,22 +25,6 @@ void	*ft_calloc(size_t count, size_t size)
 	return (out);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	if (!s || !s[0])
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
-		i ++;
-	}
-	return (NULL);
-}
-
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -53,20 +37,20 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-size_t	ft_linelen(const char *s)
+int	ft_linelen(const char *s)
 {
-	size_t	i;
+	int	i;
 
 	if (!s || !s[0])
-		return (0);
-	i = 1;
+		return (-1);
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '\n')
 			return (i);
 		i ++;
 	}
-	return (0);
+	return (-1);
 }
 
 /*
