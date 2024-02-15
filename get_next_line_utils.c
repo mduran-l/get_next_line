@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/13 21:47:54 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:13:19 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -14,24 +14,30 @@
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*out;
-	size_t	i;
 
 	out = (void *)malloc(count * size);
 	if (!out)
 		return (NULL);
-	i = 0;
-	while (i < count * size)
-		((char *)out)[i ++] = 0;
+	ft_bzero(out, count * size);
 	return (out);
+}
+
+void	ft_bzero(void *var, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+		((char *)var)[i ++] = 0;
 }
 
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
-	if (!s)
-		return (0);
 	i = 0;
+	if (!s)
+		return (i);
 	while (s[i])
 		i ++;
 	return (i);

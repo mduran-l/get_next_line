@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/14 15:27:10 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:13:00 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -35,14 +35,11 @@ static char	*extract_line(char *buff)
 	line = ft_calloc(i + 1, sizeof(char));
 	if (!line)
 		return (NULL);
-	i = 0;
-	while (buff[i] && buff[i] != '\n')
-	{
+	i = -1;
+	while (buff[++i] && buff[i] != '\n')
 		line[i] = buff[i];
-		i ++;
-	}
-	if (buff[i])
-		line[i] = buff[i];
+	if (buff[i] == '\n')
+		line[i] = '\n';
 	return (line);
 }
 
@@ -53,8 +50,6 @@ static char	*clear_buffer(char *line, char *buff)
 	size_t	s;
 	char	*cleared;
 
-	if (!line)
-		return (freeall(&buff, NULL));
 	s = ft_strlen(buff);
 	i = ft_strlen(line);
 	if (!(s - i))
@@ -75,7 +70,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			fd_read;
 
-	if (!fd || !BUFFER_SIZE)
+	if (fd < 0 || !BUFFER_SIZE)
 		return (NULL);
 	line = (char *)ft_calloc(1 + BUFFER_SIZE, sizeof(char));
 	if (!line)
@@ -83,6 +78,7 @@ char	*get_next_line(int fd)
 	fd_read = 1;
 	while (fd_read && ft_linelen(line) < 0)
 	{
+		ft_bzero(line, (BUFFER_SIZE + 1) * sizeof(char));
 		fd_read = read(fd, line, BUFFER_SIZE);
 		if (fd_read < 0)
 			return (freeall(&line, &buff));
