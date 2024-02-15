@@ -6,17 +6,21 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/15 10:13:00 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:59:08 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
 char	*freeall(char **s1, char **s2)
 {
-	if (s1 != NULL && *s1 != NULL)
+	if (*s1 != NULL)
 		free(*s1);
-	if (s2 != NULL && *s2 != NULL)
+	*s1 = NULL;
+	if (!s2)
+		return (NULL);
+	if (*s2 != NULL)
 		free(*s2);
+	*s2 = NULL;
 	return (NULL);
 }
 
@@ -60,7 +64,7 @@ static char	*clear_buffer(char *line, char *buff)
 	j = 0;
 	while (buff[i])
 		cleared[j++] = buff[i++];
-	free(buff);
+	freeall(&buff, NULL);
 	return (cleared);
 }
 
@@ -84,9 +88,9 @@ char	*get_next_line(int fd)
 			return (freeall(&line, &buff));
 		buff = ft_strjoin(buff, line);
 		if (!buff)
-			return (freeall(&buff, &line));
+			return (freeall(&line, NULL));
 	}
-	free(line);
+	freeall(&line, NULL);
 	line = extract_line(buff);
 	buff = clear_buffer(line, buff);
 	return (line);

@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/15 10:13:19 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:29:49 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -72,19 +72,19 @@ char	*ft_strjoin(char *s1, char *s2)
 	{
 		s1 = (char *)ft_calloc(1, sizeof(char));
 		if (!s1)
-			return (freeall(&s2, NULL));
+			return (NULL);
 	}
 	i = ft_strlen(s1);
 	j = ft_strlen(s2);
 	joint = (char *)ft_calloc(1 + i + j, sizeof(char));
 	if (!joint)
-		return (freeall(&s1, &s2));
+		return (freeall(&s2, NULL));
 	i = -1;
 	while (s1[++ i])
 		joint[i] = s1[i];
 	j = -1;
 	while (s2[++ j])
 		joint[i + j] = s2[j];
-	free(s1);
+	freeall(&s1, NULL);
 	return (joint);
 }
