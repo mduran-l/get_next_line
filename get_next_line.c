@@ -6,13 +6,15 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:27:07 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/15 12:12:49 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:04:04 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
 char	*freeall(char **s1, char **s2)
 {
+	if (!s1)
+		return (NULL);
 	if (*s1 != NULL)
 		free(*s1);
 	*s1 = NULL;
@@ -35,7 +37,7 @@ static char	*extract_line(char *buff)
 	if (!i)
 		i = ft_strlen(buff);
 	if (!i)
-		return (NULL);
+		return (freeall(&buff, NULL));
 	line = ft_calloc(i + 1, sizeof(char));
 	if (!line)
 		return (freeall(&buff, NULL));
@@ -54,6 +56,10 @@ static char	*clear_buffer(char *line, char *buff)
 	size_t	s;
 	char	*cleared;
 
+	if (!line)
+		return (NULL);
+	if (!buff)
+		return (freeall(&line, NULL));
 	s = ft_strlen(buff);
 	i = ft_strlen(line);
 	if (!(s - i))
@@ -78,7 +84,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = (char *)ft_calloc(1 + BUFFER_SIZE, sizeof(char));
 	if (!line)
-		return (NULL);
+		return (freeall(&buff, NULL));
 	fd_read = 1;
 	while (fd_read && ft_linelen(line) < 0)
 	{
