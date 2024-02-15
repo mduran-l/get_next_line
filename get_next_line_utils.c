@@ -6,7 +6,7 @@
 /*   By: mduran-l <mduran-l@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:25:57 by mduran-l          #+#    #+#             */
-/*   Updated: 2024/02/15 10:29:49 by mduran-l         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:02:25 by mduran-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -78,7 +78,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = ft_strlen(s2);
 	joint = (char *)ft_calloc(1 + i + j, sizeof(char));
 	if (!joint)
-		return (freeall(&s2, NULL));
+		return (freeall(&s1, NULL));
 	i = -1;
 	while (s1[++ i])
 		joint[i] = s1[i];
